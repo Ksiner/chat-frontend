@@ -7,18 +7,17 @@ import './App.css';
 
 export default function InputZone(props) {
   return (
-    <Paper className="root">
-      <InputBase
-        className="input"
-        placeholder="Enter Message..."
-        inputProps={{ 'aria-label': 'Enter...' }}
-        value={props.value}
-        onKeyPress={props.handleSubmit}
-        onChange={props.handleChange}
-      />
-      <IconButton className="iconButton" aria-label="Search">
-        <SendIcon />
-      </IconButton>
-    </Paper>
+    <form onSubmit={props.handleSubmit}>
+      <Paper className="root">
+        <InputBase
+          className="input"
+          placeholder="Enter Message..."
+          inputProps={{ 'aria-label': 'Enter...' }}
+        />
+        <IconButton className="iconButton" aria-label="Search">
+          <SendIcon />
+        </IconButton>
+      </Paper>
+    </form>
   );
 }

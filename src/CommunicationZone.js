@@ -7,68 +7,53 @@ import APIService from './services/APIService';
 
 const CommunicationZone = () => {
   const [state, setState] = React.useState({
-    value: '',
-    disposable: '',
     history: ['How can I help?'],
   });
-  const stateRef = React.useRef(state);
-
-  function handleChange(event) {
-    setState({
-      ...state,
-      value: event.target.value,
-    });
-  }
 
   async function handleSubmit(event) {
-    if (event.key === 'Enter' && state.value.length) {
-      const question = state.value;
+    event.preventDefault();
 
-      const newState = {
+    const questionInput = event.target[0];
+    const question = event.target[0].value;
+
+    if (question.length) {
+      setState((state) => ({
         ...state,
-        value: '',
-        disposable: event.target.value,
-        history: [...state.history, event.target.value],
-      };
+        history: [...state.history, question],
+      }));
 
-      setState(newState);
-      stateRef.current = newState;
+      questionInput.value = '';
       await dialogueEngine(question);
     }
+
     cleanHistory();
   }
 
   async function dialogueEngine(question) {
     const response = await APIService.getAnswer(question);
-    setState({
-      ...stateRef.current,
-      history: [...stateRef.current.history, response.answer],
-    });
+
+    setState((state) => ({
+      ...state,
+      history: [...state.history, response.answer],
+    }));
   }
 
   function cleanHistory() {
-    const tempHistory = state.history;
-    let newHistory = [];
-    if (state.history.length > 12) {
-      tempHistory.shift();
-      tempHistory.shift();
-      newHistory = tempHistory;
-      setState({
-        ...state,
-        history: newHistory,
-      });
+    if (state.history.length < 12) {
+      return;
     }
+
+    setState((state) => ({
+      ...state,
+      history: [...state.history].slice(2),
+    }));
   }
 
   return (
     <div className="chatHost innerShadow">
       <ContactWindow />
       <ChatZone chatItem={state.history} />
-      <InputZone
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        value={state.value}
-      />
+      <InputZone handleSubmit={handleSubmit} />
     </div>
   );
 };
