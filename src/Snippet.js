@@ -9,12 +9,12 @@ export default function Snippet(props) {
       <Paper
         className="snippetBox"
         style={
-          props.index % 2 === 0
-            ? { float: 'left', backgroundColor: '#6accc3' }
-            : { float: 'right' }
+          props.item.myMessage
+            ? { float: 'right' }
+            : { float: 'left', backgroundColor: '#6accc3' }
         }
       >
-        <Typography component="p">{props.item}</Typography>
+        <Typography component="p">{props.item.message}</Typography>
       </Paper>
     </div>
   );

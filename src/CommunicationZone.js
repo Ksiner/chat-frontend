@@ -7,7 +7,7 @@ import APIService from './services/APIService';
 
 const CommunicationZone = () => {
   const [state, setState] = React.useState({
-    history: ['How can I help?'],
+    history: [{ myMessage: false, message: 'How can I help?' }],
   });
 
   async function handleSubmit(event) {
@@ -19,7 +19,7 @@ const CommunicationZone = () => {
     if (question.length) {
       setState((state) => ({
         ...state,
-        history: [...state.history, question],
+        history: [...state.history, { myMessage: true, message: question }],
       }));
 
       questionInput.value = '';
@@ -34,7 +34,10 @@ const CommunicationZone = () => {
 
     setState((state) => ({
       ...state,
-      history: [...state.history, response.answer],
+      history: [
+        ...state.history,
+        { myMessage: false, message: response.answer },
+      ],
     }));
   }
 

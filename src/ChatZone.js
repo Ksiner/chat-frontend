@@ -9,7 +9,7 @@ export default function ChatZone(props) {
     <div className="innerShadow">
       <div className="chatWrap">
         {history.map((item, index) => (
-          <Snippet key={index} index={index} item={item} />
+          <Snippet key={index} item={item} />
         ))}
       </div>
     </div>
